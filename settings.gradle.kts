@@ -1,3 +1,4 @@
+// FILE RADICE
 pluginManagement {
     repositories {
         google()
