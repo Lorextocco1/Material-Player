@@ -1,4 +1,4 @@
-name: Build Android APK (Fix)
+name: Build Android APK (Universal Fix)
 
 on:
   push:
@@ -10,30 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Scarica il codice
+    # 1. Scarica i tuoi file
+    - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Imposta Java 17
+    # 2. Prepara Java 17 (Compatibile con Gradle 8.2)
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    # QUI STA IL TRUCCO: Forziamo una versione di Gradle specifica
-    # che sappiamo essere compatibile con i tuoi file.
+    # 3. Installa Gradle 8.2 manualmente (bypassando l'assenza di gradlew)
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
         gradle-version: '8.2'
 
-    - name: Crea i permessi (nel caso mancassero)
-      run: chmod +x gradlew || true
-
-    # Usiamo il comando 'gradle' diretto, ignorando il wrapper che potrebbe mancare
-    - name: Compila APK
+    # 4. Compila usando il comando 'gradle' invece di './gradlew'
+    - name: Build Debug APK
       run: gradle assembleDebug --stacktrace --warning-mode all
 
-    - name: Carica l'APK
+    # 5. Carica il risultato
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: Pixel-Catalog-APK
