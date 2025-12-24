@@ -1,4 +1,4 @@
-name: Costruisci APK Pixel Catalog
+name: Build Android APK (Fix)
 
 on:
   push:
@@ -19,15 +19,21 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Configura Gradle
+    # QUI STA IL TRUCCO: Forziamo una versione di Gradle specifica
+    # che sappiamo essere compatibile con i tuoi file.
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
-        gradle-version: '8.5'
+        gradle-version: '8.2'
 
-    - name: Compila l'APK (Comando Diretto)
+    - name: Crea i permessi (nel caso mancassero)
+      run: chmod +x gradlew || true
+
+    # Usiamo il comando 'gradle' diretto, ignorando il wrapper che potrebbe mancare
+    - name: Compila APK
       run: gradle assembleDebug --stacktrace --warning-mode all
 
-    - name: Carica l'APK finito per il download
+    - name: Carica l'APK
       uses: actions/upload-artifact@v4
       with:
         name: Pixel-Catalog-APK
