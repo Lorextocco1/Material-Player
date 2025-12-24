@@ -1,22 +1,21 @@
+// FILE DENTRO LA CARTELLA APP
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    // CAMBIA QUESTO SE IL TUO PACKAGE È DIVERSO (es. com.example.materialplayer)
+    // IMPORTANTE: Se il tuo codice Kotlin ha un package diverso, CAMBIA QUESTO!
     namespace = "com.example.pixelcatalog"
     compileSdk = 34
 
     defaultConfig {
-        // ANCHE QUESTO DEVE COINCIDERE COL NAMESPACE
         applicationId = "com.example.pixelcatalog"
-        minSdk = 26 // Android 8.0 (Oreo)
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -39,7 +38,7 @@ android {
         compose = true
     }
     composeOptions {
-        // Questa versione è specifica per Kotlin 1.9.0
+        // QUESTA È LA CHIAVE: 1.5.1 funziona perfettamente con Kotlin 1.9.0
         kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
@@ -50,26 +49,20 @@ android {
 }
 
 dependencies {
-    // --- INTERFACCIA UTENTE (Jetpack Compose) ---
+    // Versioni fisse e stabili
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    
-    // --- LOGICA E ATTIVITÀ ---
     implementation("androidx.activity:activity-compose:1.8.2")
-    
-    // --- ICONE ---
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
-
-    // --- CARICAMENTO IMMAGINI (Coil) ---
+    
+    // Coil e FFmpeg
     implementation("io.coil-kt:coil-compose:2.6.0")
-
-    // --- MOTORE FFMPEG (Per leggere MKV/AV1/VP9) ---
     implementation("com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.19")
     implementation("com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.19")
-
-    // --- GESTIONE PERMESSI ---
+    
+    // Permessi
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
 }
